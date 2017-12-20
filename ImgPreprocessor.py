@@ -57,7 +57,7 @@ def remove_white_bands(original,
         input_y = input_y + stride_height
     return out_image.crop((0,0,original.width, output_y))
 
-def get_jpgs_dir(input_dir):
+def get_imgs_from_jpg_dir(input_dir):
     outlist = list()
     for fname in os.listdir(input_dir):
         if fname.split(".")[-1] == "jpg":
@@ -75,10 +75,19 @@ def club_imgs(img_list):
         img_y = img_y + img.height
     return clubbed_img
 
-def process_jpgs_dir(input_dir):
-    jpgfiles = get_jpgs_dir(input_dir)
-    jpgfiles = [grey_scale_color_invert(x) for x in jpgfiles]
-    clubbedjpg = club_imgs(jpgfiles)
-    outjpg = remove_white_bands(clubbedjpg)
-    return grey_scale_color_invert(outjpg)
+def process_imgs(imglist):
+    imgfiles = [grey_scale_color_invert(x) for x in imglist]
+    clubbedimg = club_imgs(imgfiles)
+    outimg = remove_white_bands(clubbedimg)
+    return grey_scale_color_invert(outimg)
 
+def process_jpgs_dir(input_dir):
+    imglist = get_imgs_from_jpg_dir(input_dir)
+    outimg = process_imgs(imglist)
+    return outimg
+
+def process_pdf(fname):
+    jpgimgs = convert_from_path(fname)
+    imglist = [img.split()[0] for img in jpgimgs]
+    outimg = process_imgs(imglist)
+    return outimg
