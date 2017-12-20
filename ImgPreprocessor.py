@@ -30,8 +30,8 @@ def signal_in_band(region, window_width, threshold=THRESHOLD):
             return True
     return False
 
-def remove_white_bands(original, 
-                       window_height=WINDOW_HEIGHT, 
+def remove_white_bands(original,
+                       window_height=WINDOW_HEIGHT,
                        stride_height = STRIDE_HEIGHT,
                        segments_in_band = SEGMENTS_IN_BAND):
     #Sanity Check (Make sure size of images are same)
@@ -55,7 +55,7 @@ def remove_white_bands(original,
             output_y = output_y + stride_height
         #Update input_y regardless
         input_y = input_y + stride_height
-    return out_image
+    return out_image.crop((0,0,original.width, output_y))
 
 def get_jpgs_dir(input_dir):
     outlist = list()
